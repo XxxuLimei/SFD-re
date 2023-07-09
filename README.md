@@ -477,3 +477,5 @@ Traceback (most recent call last):
 NotImplementedError
 ```
 - 决定把LR再调小一点
+- 绝望了，啥方法都用过了，包括LR，normalize，以及把giou改为diou，都是notimplementederror...
+- 
