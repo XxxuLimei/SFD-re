@@ -478,4 +478,5 @@ NotImplementedError
 ```
 - 决定把LR再调小一点
 - 绝望了，啥方法都用过了，包括LR，normalize，以及把giou改为diou，都是notimplementederror...
+- [其他的3D目标检测论文](https://cloud.tencent.com/developer/article/2233781)
 - 
