@@ -773,3 +773,5 @@ Traceback (most recent call last):
 NotImplementedError
 ```  
 原来真的是框架的问题，而不是sfd的问题。  
+2. 准备把spconv换成1.1.1了  
+3. 
