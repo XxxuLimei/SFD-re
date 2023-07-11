@@ -479,4 +479,297 @@ NotImplementedError
 - 决定把LR再调小一点
 - 绝望了，啥方法都用过了，包括LR，normalize，以及把giou改为diou，都是notimplementederror...
 - [其他的3D目标检测论文](https://cloud.tencent.com/developer/article/2233781)
-- 
+### 0711:  
+1. 按照论文原作者的提示，跑了一下voxel_rcnn，发现也会报同样的错。。。
+```
+VoxelRCNN(
+  (vfe): MeanVFE()
+  (backbone_3d): VoxelBackBone8x(
+    (conv_input): SparseSequential(
+      (0): SubMConv3d()
+      (1): BatchNorm1d(16, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+      (2): ReLU()
+    )
+    (conv1): SparseSequential(
+      (0): SparseSequential(
+        (0): SubMConv3d()
+        (1): BatchNorm1d(16, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+    )
+    (conv2): SparseSequential(
+      (0): SparseSequential(
+        (0): SparseConv3d()
+        (1): BatchNorm1d(32, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (1): SparseSequential(
+        (0): SubMConv3d()
+        (1): BatchNorm1d(32, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (2): SparseSequential(
+        (0): SubMConv3d()
+        (1): BatchNorm1d(32, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+    )
+    (conv3): SparseSequential(
+      (0): SparseSequential(
+        (0): SparseConv3d()
+        (1): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (1): SparseSequential(
+        (0): SubMConv3d()
+        (1): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (2): SparseSequential(
+        (0): SubMConv3d()
+        (1): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+    )
+    (conv4): SparseSequential(
+      (0): SparseSequential(
+        (0): SparseConv3d()
+        (1): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (1): SparseSequential(
+        (0): SubMConv3d()
+        (1): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (2): SparseSequential(
+        (0): SubMConv3d()
+        (1): BatchNorm1d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+    )
+    (conv_out): SparseSequential(
+      (0): SparseConv3d()
+      (1): BatchNorm1d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+      (2): ReLU()
+    )
+  )
+  (map_to_bev_module): HeightCompression()
+  (pfe): None
+  (backbone_2d): BaseBEVBackbone(
+    (blocks): ModuleList(
+      (0): Sequential(
+        (0): ZeroPad2d(padding=(1, 1, 1, 1), value=0.0)
+        (1): Conv2d(256, 64, kernel_size=(3, 3), stride=(1, 1), bias=False)
+        (2): BatchNorm2d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (3): ReLU()
+        (4): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (5): BatchNorm2d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (6): ReLU()
+        (7): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (8): BatchNorm2d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (9): ReLU()
+        (10): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (11): BatchNorm2d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (12): ReLU()
+        (13): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (14): BatchNorm2d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (15): ReLU()
+        (16): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (17): BatchNorm2d(64, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (18): ReLU()
+      )
+      (1): Sequential(
+        (0): ZeroPad2d(padding=(1, 1, 1, 1), value=0.0)
+        (1): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), bias=False)
+        (2): BatchNorm2d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (3): ReLU()
+        (4): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (5): BatchNorm2d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (6): ReLU()
+        (7): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (8): BatchNorm2d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (9): ReLU()
+        (10): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (11): BatchNorm2d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (12): ReLU()
+        (13): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (14): BatchNorm2d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (15): ReLU()
+        (16): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (17): BatchNorm2d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (18): ReLU()
+      )
+    )
+    (deblocks): ModuleList(
+      (0): Sequential(
+        (0): ConvTranspose2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+      (1): Sequential(
+        (0): ConvTranspose2d(128, 128, kernel_size=(2, 2), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(128, eps=0.001, momentum=0.01, affine=True, track_running_stats=True)
+        (2): ReLU()
+      )
+    )
+  )
+  (dense_head): AnchorHeadSingle(
+    (cls_loss_func): SigmoidFocalClassificationLoss()
+    (reg_loss_func): WeightedSmoothL1Loss()
+    (dir_loss_func): WeightedCrossEntropyLoss()
+    (conv_cls): Conv2d(256, 2, kernel_size=(1, 1), stride=(1, 1))
+    (conv_box): Conv2d(256, 14, kernel_size=(1, 1), stride=(1, 1))
+    (conv_dir_cls): Conv2d(256, 4, kernel_size=(1, 1), stride=(1, 1))
+  )
+  (point_head): None
+  (roi_head): VoxelRCNNHead(
+    (proposal_target_layer): ProposalTargetLayer()
+    (reg_loss_func): WeightedSmoothL1Loss()
+    (roi_grid_pool_layers): ModuleList(
+      (0): NeighborVoxelSAModuleMSG(
+        (groupers): ModuleList(
+          (0): VoxelQueryAndGrouping()
+        )
+        (mlps_in): ModuleList(
+          (0): Sequential(
+            (0): Conv1d(32, 32, kernel_size=(1,), stride=(1,), bias=False)
+            (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mlps_pos): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(3, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mlps_out): ModuleList(
+          (0): Sequential(
+            (0): Conv1d(32, 32, kernel_size=(1,), stride=(1,), bias=False)
+            (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (relu): ReLU()
+      )
+      (1): NeighborVoxelSAModuleMSG(
+        (groupers): ModuleList(
+          (0): VoxelQueryAndGrouping()
+        )
+        (mlps_in): ModuleList(
+          (0): Sequential(
+            (0): Conv1d(64, 32, kernel_size=(1,), stride=(1,), bias=False)
+            (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mlps_pos): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(3, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mlps_out): ModuleList(
+          (0): Sequential(
+            (0): Conv1d(32, 32, kernel_size=(1,), stride=(1,), bias=False)
+            (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (relu): ReLU()
+      )
+      (2): NeighborVoxelSAModuleMSG(
+        (groupers): ModuleList(
+          (0): VoxelQueryAndGrouping()
+        )
+        (mlps_in): ModuleList(
+          (0): Sequential(
+            (0): Conv1d(64, 32, kernel_size=(1,), stride=(1,), bias=False)
+            (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mlps_pos): ModuleList(
+          (0): Sequential(
+            (0): Conv2d(3, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (mlps_out): ModuleList(
+          (0): Sequential(
+            (0): Conv1d(32, 32, kernel_size=(1,), stride=(1,), bias=False)
+            (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (2): ReLU()
+          )
+        )
+        (relu): ReLU()
+      )
+    )
+    (shared_fc_layer): Sequential(
+      (0): Linear(in_features=20736, out_features=256, bias=False)
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU(inplace=True)
+      (3): Dropout(p=0.3, inplace=False)
+      (4): Linear(in_features=256, out_features=256, bias=False)
+      (5): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (6): ReLU(inplace=True)
+    )
+    (cls_fc_layers): Sequential(
+      (0): Linear(in_features=256, out_features=256, bias=False)
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU()
+      (3): Dropout(p=0.3, inplace=False)
+      (4): Linear(in_features=256, out_features=256, bias=False)
+      (5): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (6): ReLU()
+    )
+    (cls_pred_layer): Linear(in_features=256, out_features=1, bias=True)
+    (reg_fc_layers): Sequential(
+      (0): Linear(in_features=256, out_features=256, bias=False)
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): ReLU()
+      (3): Dropout(p=0.3, inplace=False)
+      (4): Linear(in_features=256, out_features=256, bias=False)
+      (5): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (6): ReLU()
+    )
+    (reg_pred_layer): Linear(in_features=256, out_features=7, bias=True)
+  )
+)
+```
+报错如下:  
+```
+NaN or Inf found in input tensor.                      | 11/1856 [00:08<23:07,  1.33it/s, total_it=11]
+NaN or Inf found in input tensor.
+NaN or Inf found in input tensor.
+maxoverlaps:(min=nan, max=nan)
+ERROR: FG=0, BG=0
+epochs:   0%|                                              | 0/80 [00:09<?, ?it/s, loss=nan, lr=0.001]
+Traceback (most recent call last):
+  File "/home/xilm/fuxian/SFD/tools/train.py", line 210, in <module>
+    main()
+  File "/home/xilm/fuxian/SFD/tools/train.py", line 165, in main
+    train_model(
+  File "/home/xilm/fuxian/SFD/tools/train_utils/train_utils.py", line 86, in train_model
+    accumulated_iter = train_one_epoch(
+  File "/home/xilm/fuxian/SFD/tools/train_utils/train_utils.py", line 38, in train_one_epoch
+    loss, tb_dict, disp_dict = model_func(model, batch)
+  File "/home/xilm/fuxian/SFD/pcdet/models/__init__.py", line 30, in model_func
+    ret_dict, tb_dict, disp_dict = model(batch_dict)
+  File "/home/xilm/anaconda3/lib/python3.9/site-packages/torch/nn/modules/module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/xilm/fuxian/SFD/pcdet/models/detectors/voxel_rcnn.py", line 11, in forward
+    batch_dict = cur_module(batch_dict)
+  File "/home/xilm/anaconda3/lib/python3.9/site-packages/torch/nn/modules/module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/xilm/fuxian/SFD/pcdet/models/roi_heads/voxelrcnn_head.py", line 227, in forward
+    targets_dict = self.assign_targets(batch_dict)
+  File "/home/xilm/fuxian/SFD/pcdet/models/roi_heads/roi_head_template.py", line 117, in assign_targets
+    targets_dict = self.proposal_target_layer.forward(batch_dict)
+  File "/home/xilm/fuxian/SFD/pcdet/models/roi_heads/target_assigner/proposal_target_layer.py", line 32, in forward
+    batch_rois, batch_gt_of_rois, batch_roi_ious, batch_roi_scores, batch_roi_labels = self.sample_rois_for_rcnn(
+  File "/home/xilm/fuxian/SFD/pcdet/models/roi_heads/target_assigner/proposal_target_layer.py", line 107, in sample_rois_for_rcnn
+    sampled_inds = self.subsample_rois(max_overlaps=max_overlaps)
+  File "/home/xilm/fuxian/SFD/pcdet/models/roi_heads/target_assigner/proposal_target_layer.py", line 159, in subsample_rois
+    raise NotImplementedError
+NotImplementedError
+```  
+原来真的是框架的问题，而不是sfd的问题。  
