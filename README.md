@@ -787,3 +787,20 @@ home/xilm/fuxian/SFD/pcdet/models/roi_heads/sfd_head.py:305: UserWarning: __floo
 /home/xilm/fuxian/SFD/pcdet/models/roi_heads/sfd_head.py:349: UserWarning: __floordiv__ is deprecated, and its behavior will change in a future version of pytorch. It currently rounds toward 0 (like the 'trunc' function NOT 'floor'). This results in incorrect rounding for negative values. To keep the current behavior, use torch.div(a, b, rounding_mode='trunc'), or for actual floor division, use torch.div(a, b, rounding_mode='floor').
   cur_roi_grid_coords = roi_grid_coords // cur_stride
 ```
+这个错误只要把简单的除号改为torch.div(a, b, rounding_mode='trunc')即可  
+3. 然后又报了一个错：
+```
+Original Traceback (most recent call last):
+  File "/home/xilm/anaconda3/lib/python3.9/site-packages/torch/utils/data/_utils/worker.py", line 287, in _worker_loop
+    data = fetcher.fetch(index)
+  File "/home/xilm/anaconda3/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 49, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/xilm/anaconda3/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 49, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/xilm/fuxian/SFD/pcdet/datasets/kitti/kitti_dataset_sfd.py", line 389, in __getitem__
+    points_pseudo = self.get_lidar_pseudo(sample_idx)
+  File "/home/xilm/fuxian/SFD/pcdet/datasets/kitti/kitti_dataset_sfd.py", line 72, in get_lidar_pseudo
+    assert lidar_pseudo_file.exists()
+AssertionError
+```
+经过仔细检查才发现，training文件夹里depth_pseudo_rgbseguv_twise的.bin文件数居然不是7481，而是7470...，原因是我下载的时候曾经电脑卡死，中断了下载，开机后又继续下载，没想到居然少了10个文件。。。泪目
