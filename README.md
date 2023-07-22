@@ -1197,3 +1197,6 @@ aos  AP:98.91, 97.13, 94.95
 2023-07-18 07:28:19,138   INFO  Epoch 40 has been evaluated
 ```
 整个训练过程跑了33个半小时。  
+## 0722：  
+1. 使用demo.py跑了一张效果图：
+![](https://github.com/XxxuLimei/SFD-re/blob/main/doc/snapshot.png)
