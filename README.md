@@ -1200,3 +1200,33 @@ aos  AP:98.91, 97.13, 94.95
 ## 0722：  
 1. 使用demo.py跑了一张效果图：
 ![](https://github.com/XxxuLimei/SFD-re/blob/main/doc/snapshot.png)
+
+## 0810:  
+```
+import cv2
+import numpy as np
+import torch
+from torch.nn import functional as F
+
+videoCapture = cv2.VideoCapture('/media/SSD2/personal/xulimei/esrgan/test_gamevideo/跑酷-12帧.mp4')
+fps = videoCapture.get(cv2.CAP_PROP_FPS)
+size = (640, 360)
+videoWriter = cv2.VideoWriter('/media/SSD2/personal/xulimei/esrgan/test_gamevideo/跑酷-12帧_resize.mp4', cv2.VideoWriter_fourcc(*'mp4v'), fps, size)
+
+while videoCapture.isOpened():
+    ret, frame = videoCapture.read()
+    if not ret:
+        break
+    frame_tensor = np.array(frame)
+    frame_tensor = torch.from_numpy(frame_tensor).unsqueeze(0).float()
+    frame_tensor = frame_tensor.permute(0, 3, 1, 2)
+
+    # resized_frame = cv2.resize(frame, size)
+    out = F.interpolate(frame_tensor, size=(640, 360), mode='bilinear', align_corners=False)
+    out = out.squeeze(0).byte().numpy().transpose((1, 2, 0))
+    m = videoWriter.write(out)
+    print(m)
+
+videoCapture.release()
+videoWriter.release()
+```
