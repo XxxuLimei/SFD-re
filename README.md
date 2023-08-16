@@ -1229,4 +1229,7 @@ while videoCapture.isOpened():
 
 videoCapture.release()
 videoWriter.release()
-```
+```   
+## 0816：  
+1. 终于完成了对RGB点云的可视化：
+![](https://github.com/XxxuLimei/SFD-re/blob/main/doc/Screenshot%20from%202023-08-16%2019-35-12.png)
