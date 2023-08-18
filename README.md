@@ -1233,3 +1233,7 @@ videoWriter.release()
 ## 0816：  
 1. 终于完成了对RGB点云的可视化：
 ![](https://github.com/XxxuLimei/SFD-re/blob/main/doc/Screenshot%20from%202023-08-16%2019-35-12.png)
+## 0818:  
+1. 最近开始跑原始的，没有任何框架的voxelnet网络：
+- 将cpp转为python可以编译的函数：`g++ -O3 -Wall -shared -std=c++11 -fPIC `python -m pybind11 --includes` nms_cuda.cpp -o ext`python3-config --extension-suffix``
+- 
