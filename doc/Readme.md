@@ -182,7 +182,7 @@ DLA(
 )
 ```  
 模型大小：  
-
+```
                     module name   input shape output shape      params memory(MB)           MAdd         Flops  MemRead(B)  MemWrite(B) duration[%]   MemR+W(B)
 0                  base_layer.0     3  32  32   16  32  32      2352.0       0.06    4,800,512.0   2,408,448.0     21696.0      65536.0      14.15%     87232.0
 1                  base_layer.1    16  32  32   16  32  32        32.0       0.06       65,536.0      32,768.0     65664.0      65536.0       1.00%    131200.0
@@ -299,3 +299,4 @@ Total memory: 1.11MB
 Total MAdd: 126.01MMAdd
 Total Flops: 63.11MFlops
 Total MemR+W: 60.97MB
+```
